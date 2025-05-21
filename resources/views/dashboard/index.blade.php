@@ -32,7 +32,7 @@
                                 </div>
                                 <div>
                                     <p class="mb-2">Total Paid</p>
-                                    <h4>$ {{ $total_paid }}</h4>
+                                    <h4>Rp {{ $total_paid }}</h4>
                                 </div>
                             </div>
                             <div class="iq-progress-bar mt-2">
@@ -51,7 +51,7 @@
                                 </div>
                                 <div>
                                     <p class="mb-2">Total Due</p>
-                                    <h4>$ {{ $total_due }}</h4>
+                                    <h4>Rp {{ $total_due }}</h4>
                                 </div>
                             </div>
                             <div class="iq-progress-bar mt-2">
@@ -183,9 +183,9 @@
                     <div class="header-title">
                         <h4 class="card-title mb-0">New Products</h4>
                     </div>
-                    <div class="card-header-toolbar d-flex align-items-center">
+                    <!-- <div class="card-header-toolbar d-flex align-items-center">
                         <div><a href="#" class="btn btn-primary view-btn font-size-14">View All</a></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             @foreach ($new_products as $product)
@@ -198,7 +198,7 @@
                         <div class="style-text text-left">
                             <h5 class="mb-2">{{ $product->product_name }}</h5>
                             <p class="mb-2">Stock : {{ $product->product_store }}</p>
-                            <p class="mb-0">Price : ${{ $product->selling_price }}</p>
+                            <p class="mb-0">Price : Rp{{ $product->selling_price }}</p>
                         </div>
                     </div>
                 </div>
