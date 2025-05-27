@@ -5154,10 +5154,10 @@ if (jQuery("#editor").length) {
           y: [6593.15, 6605, 6592, 6603.06]
         }]
       }],
-      title: {
-        text: "$45,78956",
-        align: "left"
-      },
+      // title: {
+      //   text: "$45,78956",
+      //   align: "left"
+      // },
       xaxis: {
         type: "datetime"
       },

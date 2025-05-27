@@ -71,7 +71,7 @@
                             <input type="text" class="form-control bg-white" value="{{  $product->product_garage }}" readonly>
                         </div>
                         <div class="form-group col-md-6">
-                            <label>Product Store</label>
+                            <label>Product Stock</label>
                             <input type="text" class="form-control bg-white" value="{{  $product->product_store }}" readonly>
                         </div>
                         <div class="form-group col-md-6">

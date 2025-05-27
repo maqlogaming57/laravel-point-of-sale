@@ -1,9 +1,7 @@
 <?php
 
 return [
-
     'backup' => [
-
         /*
          * The name of this application. You can use this name to monitor
          * the backups.
@@ -106,11 +104,10 @@ return [
         'database_dump_file_extension' => '',
 
         'destination' => [
-
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => '',
+            'filename_prefix' => 'backup-',
 
             /*
              * The disk names on which the backups will be stored.
@@ -277,4 +274,7 @@ return [
         ],
     ],
 
+    'directory' => [
+        'format' => 'POS', // This will save backups in storage/app/POS
+    ],
 ];

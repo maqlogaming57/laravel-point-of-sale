@@ -14,7 +14,7 @@
 
                 <div class="card-body">
                     <!-- begin: Show Data -->
-                    <div class="form-group row align-items-center">
+                    <!-- <div class="form-group row align-items-center">
                         <div class="col-md-12">
                             <div class="profile-img-edit">
                                 <div class="crm-profile-img-edit">
@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row align-items-center">
                         <div class="form-group col-md-12">
@@ -61,6 +61,7 @@
                     <!-- end: Show Data -->
 
                     @if ($order->order_status == 'pending')
+                     @if(auth()->user() && auth()->user()->hasAnyRole(['KepalaGudang', 'SuperAdmin']))
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex align-items-center list-action">
@@ -68,14 +69,14 @@
                                         @method('put')
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $order->id }}">
-                                        <button type="submit" class="btn btn-success mr-2 border-none" data-toggle="tooltip" data-placement="top" title="" data-original-title="Complete">Complete Order</button>
-
-                                        <a class="btn btn-danger mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Cancel" href="{{ route('order.pendingOrders') }}">Cancel</a>
+                                        <button type="submit" class="btn btn-success mr-2 border-none" data-toggle="tooltip" title="Complete">ACC Pesanan</button>
+                                        <a class="btn btn-danger mr-2" data-toggle="tooltip" title="Cancel" href="{{ route('order.pendingOrders') }}">Cancel</a>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     @endif
+                @endif
                 </div>
             </div>
         </div>
@@ -101,7 +102,8 @@
                         <tr>
                             <td>{{ $loop->iteration  }}</td>
                             <td>
-                                <img class="avatar-60 rounded" src="{{ $item->product->product_image ? asset('storage/products/'.$item->product_image) : asset('storage/products/default.webp') }}">
+                                <img class="avatar-60 rounded" src="{{ $item->product->product_image ? asset('storage/products/'.$item->product->product_image) : asset('storage/products/default.webp') }}">
+
                             </td>
                             <td>{{ $item->product->product_name }}</td>
                             <td>{{ $item->product->product_code }}</td>

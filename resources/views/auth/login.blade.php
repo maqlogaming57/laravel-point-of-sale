@@ -37,14 +37,14 @@
                                             <label>Password</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <!-- <div class="col-lg-6">
                                         <p>
                                             Not a Member yet? <a href="{{ route('register') }}" class="text-primary">Register</a>
                                         </p>
-                                    </div>
-                                    <div class="col-lg-6">
+                                    </div> -->
+                                    <!-- <div class="col-lg-6">
                                         <a href="#" class="text-primary float-right">Forgot Password?</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </form>

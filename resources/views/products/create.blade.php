@@ -94,7 +94,7 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="product_store">Product Store</label>
+                                <label for="product_store">Product Stock</label>
                                 <input type="text" class="form-control @error('product_store') is-invalid @enderror" id="product_store" name="product_store" value="{{ old('product_store') }}">
                                 @error('product_store')
                                 <div class="invalid-feedback">

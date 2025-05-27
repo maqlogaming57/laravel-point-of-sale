@@ -1,6 +1,31 @@
 @extends('dashboard.body.main')
 
 @section('container')
+<style>
+    .style-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        display: block;
+        margin: auto;
+    }
+
+    .bg-warning-light {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 193, 7, 0.1);
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
@@ -31,8 +56,8 @@
                                     <img src="../assets/images/product/1.png" class="img-fluid" alt="image">
                                 </div>
                                 <div>
-                                    <p class="mb-2">Total Paid</p>
-                                    <h4>$ {{ $total_paid }}</h4>
+                                    <p class="mb-2">Pembayaran Masuk</p>
+                                    <h4>Rp {{ $total_paid }}</h4>
                                 </div>
                             </div>
                             <div class="iq-progress-bar mt-2">
@@ -50,8 +75,8 @@
                                     <img src="../assets/images/product/2.png" class="img-fluid" alt="image">
                                 </div>
                                 <div>
-                                    <p class="mb-2">Total Due</p>
-                                    <h4>$ {{ $total_due }}</h4>
+                                    <p class="mb-2">Total Tagihan</p>
+                                    <h4>Rp {{ $total_due }}</h4>
                                 </div>
                             </div>
                             <div class="iq-progress-bar mt-2">
@@ -69,7 +94,7 @@
                                     <img src="../assets/images/product/3.png" class="img-fluid" alt="image">
                                 </div>
                                 <div>
-                                    <p class="mb-2">Complete Orders</p>
+                                    <p class="mb-2">Pesanan Selesai</p>
                                     <h4>{{ count($complete_orders) }}</h4>
                                 </div>
                             </div>
@@ -82,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
             <div class="card card-block card-stretch card-height">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
@@ -107,8 +132,8 @@
                     <div id="layout1-chart1"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
+        </div> -->
+        <!-- <div class="col-lg-6">
             <div class="card card-block card-stretch card-height">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <div class="header-title">
@@ -133,7 +158,7 @@
                     <div id="layout1-chart-2" style="min-height: 360px;"></div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="col-lg-8">
             <div class="card card-block card-stretch card-height">
@@ -157,23 +182,23 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <ul class="list-unstyled row top-product mb-0">
-                    @foreach ($products as $product)
-                        <li class="col-lg-3">
-                            <div class="card card-block card-stretch card-height mb-0">
-                                <div class="card-body">
-                                    <div class="bg-warning-light rounded">
-                                        <img src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/images/product/default.webp') }}" class="style-img img-fluid m-auto p-3" alt="image">
-                                    </div>
-                                    <div class="style-text text-left mt-3">
-                                        <h5 class="mb-1">{{ $product->product_name }}</h5>
-                                        <p class="mb-0">{{ $product->product_store }} Item</p>
+                    <div class="row">
+                        @foreach ($products as $product)
+                            <div class="col-md-3 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="bg-warning-light rounded mx-auto mb-3" style="width: 100px; height: 100px;">
+                                            <img src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/images/product/default.webp') }}" 
+                                                class="style-img img-fluid p-2" 
+                                                alt="image">
+                                        </div>
+                                        <h6 class="mb-1">{{ $product->product_name }}</h6>
+                                        <p class="text-muted small mb-0">Stock: {{ $product->product_store }}</p>
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    @endforeach
-                    </ul>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
@@ -183,9 +208,9 @@
                     <div class="header-title">
                         <h4 class="card-title mb-0">New Products</h4>
                     </div>
-                    <div class="card-header-toolbar d-flex align-items-center">
+                    <!-- <div class="card-header-toolbar d-flex align-items-center">
                         <div><a href="#" class="btn btn-primary view-btn font-size-14">View All</a></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             @foreach ($new_products as $product)
@@ -193,12 +218,12 @@
                 <div class="card-body card-item-right">
                     <div class="d-flex align-items-top">
                         <div class="bg-warning-light rounded">
-                            <img src="../assets/images/product/04.png" class="style-img img-fluid m-auto" alt="image">
+                           <img src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/images/product/default.webp') }}" class="style-img img-fluid m-auto p-3" alt="image">
                         </div>
                         <div class="style-text text-left">
                             <h5 class="mb-2">{{ $product->product_name }}</h5>
                             <p class="mb-2">Stock : {{ $product->product_store }}</p>
-                            <p class="mb-0">Price : ${{ $product->selling_price }}</p>
+                            <p class="mb-0">Price : Rp{{ $product->selling_price }}</p>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 <div class="iq-sidebar sidebar-default ">
     <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
         <a href="{{ route('dashboard') }}" class="header-logo">
-            <img src="{{ asset('assets/images/logo.png') }}" class="img-fluid rounded-normal light-logo" alt="logo"><h5 class="logo-title light-logo ml-3">POSDash</h5>
+            <img src="{{ asset('assets/images/logo.png') }}" class="img-fluid rounded-normal light-logo" alt="logo"><h5 class="logo-title light-logo ml-3">PT BMA</h5>
         </a>
         <div class="iq-menu-bt-sidebar ml-0">
             <i class="las la-bars wrapper-menu"></i>
@@ -124,7 +124,7 @@
                 </li>
                 @endif
 
-                @if (auth()->user()->can('salary.menu'))
+                <!-- @if (auth()->user()->can('salary.menu'))
                 <li>
                     <a href="#advance-salary" class="collapsed" data-toggle="collapse" aria-expanded="false">
                     <i class="fa-solid fa-cash-register"></i>
@@ -157,9 +157,9 @@
                         </li>
                     </ul>
                 </li>
-                @endif
+                @endif -->
 
-                @if (auth()->user()->can('attendence.menu'))
+                <!-- @if (auth()->user()->can('attendence.menu'))
                 <li>
                     <a href="#attendence" class="collapsed" data-toggle="collapse" aria-expanded="false">
                         <i class="fa-solid fa-calendar-days"></i>
@@ -182,7 +182,7 @@
                         </li>
                     </ul>
                 </li>
-                @endif
+                @endif -->
 
                 <hr>
 
@@ -203,7 +203,7 @@
                             </a>
                         </li>
                         <li class="{{ Request::is(['role', 'role/create', 'role/edit/*']) ? 'active' : '' }}">
-                            <a href="{{ route('role.index') }}">
+                            <a href="{{ route('roles.index') }}">
                                 <i class="fa-solid fa-arrow-right"></i><span>Roles</span>
                             </a>
                         </li>
