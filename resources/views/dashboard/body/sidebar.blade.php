@@ -126,7 +126,7 @@
 
                  @if (auth()->user()->can('reports.menu'))
                 <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-                    <a href="{{ route('order.completeOrders') }}" class="svg-icon">
+                    <a href="{{ route('report.completeOrders') }}" class="svg-icon">
                         <i class="fa-solid fa-file"></i>
                         <span class="ml-3">Reports</span>
                     </a>
