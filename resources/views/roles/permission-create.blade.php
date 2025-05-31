@@ -52,6 +52,10 @@
             'name' => 'User'
         ],
         [
+            'slug' => 'report',
+            'name' => 'Report'
+        ],
+        [
             'slug' => 'database',
             'name' => 'Database'
         ],

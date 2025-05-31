@@ -82,8 +82,8 @@
                             </a>
                         </li>
                         <li class="{{ Request::is(['products/create']) ? 'active' : '' }}">
-                            <a href="{{ route('order.completeOrders') }}">
-                                <i class="fa-solid fa-arrow-right"></i><span>Report</span>
+                            <a href="{{ route('products.create') }}">
+                                <i class="fa-solid fa-arrow-right"></i><span>Add Products</span>
                             </a>
                         </li>
                         <li class="{{ Request::is(['categories*']) ? 'active' : '' }}">
@@ -120,6 +120,15 @@
                     <a href="{{ route('suppliers.index') }}" class="svg-icon">
                         <i class="fa-solid fa-users"></i>
                         <span class="ml-3">Suppliers</span>
+                    </a>
+                </li>
+                @endif
+
+                 @if (auth()->user()->can('reports.menu'))
+                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+                    <a href="{{ route('order.completeOrders') }}" class="svg-icon">
+                        <i class="fa-solid fa-file"></i>
+                        <span class="ml-3">Reports</span>
                     </a>
                 </li>
                 @endif
