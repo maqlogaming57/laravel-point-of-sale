@@ -14,7 +14,7 @@
                 </div>
             @endif
             <div>
-                <h4 class="mb-3">Point of Sale</h4>
+                <h4 class="mb-3">Inventory</h4>
             </div>
         </div>
 
@@ -47,7 +47,13 @@
                         <td>{{ $item->price }}</td>
                         <td>{{ $item->subtotal }}</td>
                         <td>
-                            <a href="{{ route('pos.deleteCart', $item->rowId) }}" class="btn btn-danger border-none" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa-solid fa-trash mr-0"></i></a>
+                            <!-- Updated Delete Button with Modal Trigger -->
+                            <button type="button" class="btn btn-danger border-none" data-toggle="modal" data-target="#deleteModal" 
+                                    data-url="{{ route('pos.deleteCart', $item->rowId) }}" 
+                                    data-name="{{ $item->name }}"
+                                    title="Delete">
+                                <i class="fa-solid fa-trash mr-0"></i>
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -127,7 +133,6 @@
                         </div>
                     </form>
 
-
                     <div class="table-responsive rounded mb-3 border-none">
                         <table class="table mb-0">
                             <thead class="bg-white text-uppercase">
@@ -177,4 +182,54 @@
         </div>
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    Confirm Delete
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-3">
+                    <i class="fa-solid fa-trash-can text-danger" style="font-size: 3rem;"></i>
+                </div>
+                <h5>Are you sure you want to delete this item?</h5>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fa-solid fa-times me-1"></i>
+                    Cancel
+                </button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">
+                    <i class="fa-solid fa-trash me-1"></i>
+                    Yes, Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle delete modal
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var deleteUrl = button.data('url'); // Extract info from data-* attributes
+        var itemName = button.data('name');
+        
+        // Update modal content
+        var modal = $(this);
+        modal.find('#deleteItemName').text(itemName);
+        modal.find('#confirmDeleteBtn').attr('href', deleteUrl);
+    });
+});
+</script>
+
 @endsection
