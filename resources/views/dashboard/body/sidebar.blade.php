@@ -24,7 +24,7 @@
                 <li class="{{ Request::is('pos*') ? 'active' : '' }}">
                     <a href="{{ route('pos.index') }}" class="svg-icon">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="ml-3">POS</span>
+                        <span class="ml-3">Create Order</span>
                     </a>
                 </li>
                 @endif
@@ -82,8 +82,8 @@
                             </a>
                         </li>
                         <li class="{{ Request::is(['products/create']) ? 'active' : '' }}">
-                            <a href="{{ route('products.create') }}">
-                                <i class="fa-solid fa-arrow-right"></i><span>Add Product</span>
+                            <a href="{{ route('order.completeOrders') }}">
+                                <i class="fa-solid fa-arrow-right"></i><span>Report</span>
                             </a>
                         </li>
                         <li class="{{ Request::is(['categories*']) ? 'active' : '' }}">
@@ -203,7 +203,7 @@
                             </a>
                         </li>
                         <li class="{{ Request::is(['role', 'role/create', 'role/edit/*']) ? 'active' : '' }}">
-                            <a href="{{ route('roles.index') }}">
+                            <a href="{{ route('role.index') }}">
                                 <i class="fa-solid fa-arrow-right"></i><span>Roles</span>
                             </a>
                         </li>

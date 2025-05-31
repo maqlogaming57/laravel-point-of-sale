@@ -113,6 +113,7 @@ Route::middleware(['permission:orders.menu'])->group(function () {
     Route::get('/orders/details/{order_id}', [OrderController::class, 'orderDetails'])->name('order.orderDetails');
     Route::put('/orders/update/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
     Route::get('/orders/invoice/download/{order_id}', [OrderController::class, 'invoiceDownload'])->name('order.invoiceDownload');
+    Route::get('/orders/export', [OrderController::class, 'exportData'])->name('order.exportData');
 
     // Pending Due
     Route::get('/pending/due', [OrderController::class, 'pendingDue'])->name('order.pendingDue');
@@ -142,7 +143,7 @@ Route::middleware(['permission:roles.menu'])->group(function () {
     Route::delete('/permission/{id}', [RoleController::class, 'permissionDestroy'])->name('permission.destroy');
 
     // Roles
-    Route::get('/roles', [\App\Http\Controllers\Dashboard\RoleController::class, 'roleIndex'])->name('roles.index');
+    Route::get('/role', [RoleController::class, 'roleIndex'])->name('role.index');
     Route::get('/role/create', [RoleController::class, 'roleCreate'])->name('role.create');
     Route::post('/role', [RoleController::class, 'roleStore'])->name('role.store');
     Route::get('/role/edit/{id}', [RoleController::class, 'roleEdit'])->name('role.edit');

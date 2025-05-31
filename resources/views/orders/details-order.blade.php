@@ -102,7 +102,7 @@
                         <tr>
                             <td>{{ $loop->iteration  }}</td>
                             <td>
-                                <img class="avatar-60 rounded" src="{{ $item->product->product_image ? asset('storage/products/'.$item->product->product_image) : asset('storage/products/default.webp') }}">
+                                <img class="avatar-60 rounded" src="{{ $item->product->product_image ? asset('storage/products/'.$item->product->product_image) : asset('storage/product_images/default.webp') }}">
 
                             </td>
                             <td>{{ $item->product->product_name }}</td>

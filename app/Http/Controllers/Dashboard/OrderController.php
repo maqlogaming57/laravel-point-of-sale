@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class OrderController extends Controller
 {
@@ -34,19 +36,34 @@ class OrderController extends Controller
         ]);
     }
 
-    public function completeOrders()
+    public function completeOrders(Request $request)
     {
-        $row = (int) request('row', 10);
+        $query = Order::query()->where('order_status', 'complete');
 
-        if ($row < 1 || $row > 100) {
-            abort(400, 'The per-page parameter must be an integer between 1 and 100.');
+        // Date range filter
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('order_date', [
+                Carbon::parse($request->start_date)->startOfDay(),
+                Carbon::parse($request->end_date)->endOfDay()
+            ]);
         }
 
-        $orders = Order::where('order_status', 'complete')->sortable()->paginate($row);
+        // Existing search functionality
+        if ($request->has('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('invoice_no', 'LIKE', '%' . $request->search . '%')
+                ->orWhereHas('customer', function($q) use ($request) {
+                    $q->where('name', 'LIKE', '%' . $request->search . '%');
+                });
+            });
+        }
 
-        return view('orders.complete-orders', [
-            'orders' => $orders
-        ]);
+        $orders = $query->sortable()
+                        ->latest()  // Order by latest first
+                        ->paginate($request->input('row', 10))
+                        ->appends($request->except('page'));
+
+        return view('orders.complete-orders', compact('orders'));
     }
 
     public function stockManage()
@@ -217,5 +234,70 @@ class OrderController extends Controller
         ]);
 
         return Redirect::route('order.pendingDue')->with('success', 'Due Amount Updated Successfully!');
+    }
+
+    public function exportData(Request $request)
+    {
+        try {
+            $orders = Order::query()
+                ->with(['customer'])
+                ->where('order_status', 'complete');
+
+            // Apply date range filter if exists
+            if ($request->filled(['start_date', 'end_date'])) {
+                $orders->whereBetween('order_date', [
+                    Carbon::parse($request->start_date)->startOfDay(),
+                    Carbon::parse($request->end_date)->endOfDay()
+                ]);
+            }
+
+            $orders = $orders->get();
+
+            // Create new Spreadsheet object
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            // Set headers
+            $sheet->setCellValue('A1', 'No.');
+            $sheet->setCellValue('B1', 'Invoice No');
+            $sheet->setCellValue('C1', 'Customer');
+            $sheet->setCellValue('D1', 'Order Date');
+            $sheet->setCellValue('E1', 'Payment');
+            $sheet->setCellValue('F1', 'Pay');
+            $sheet->setCellValue('G1', 'Status');
+
+            // Fill data
+            $row = 2;
+            foreach ($orders as $index => $order) {
+                $sheet->setCellValue('A' . $row, $index + 1);
+                $sheet->setCellValue('B' . $row, $order->invoice_no);
+                $sheet->setCellValue('C' . $row, $order->customer->name);
+                $sheet->setCellValue('D' . $row, $order->order_date);
+                $sheet->setCellValue('E' . $row, $order->payment_status);
+                $sheet->setCellValue('F' . $row, $order->pay);
+                $sheet->setCellValue('G' . $row, $order->order_status);
+                $row++;
+            }
+
+            // Auto size columns
+            foreach (range('A', 'G') as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+
+            // Create file
+            $writer = new Xlsx($spreadsheet);
+            $fileName = 'complete_orders_' . date('Y-m-d_His') . '.xlsx';
+            
+            // Save file and force download
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $fileName . '"');
+            header('Cache-Control: max-age=0');
+            
+            $writer->save('php://output');
+            exit();
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to export data: ' . $e->getMessage());
+        }
     }
 }

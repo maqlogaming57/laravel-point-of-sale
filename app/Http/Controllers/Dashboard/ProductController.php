@@ -85,11 +85,22 @@ class ProductController extends Controller
          * Handle upload image with Storage.
          */
         if ($file = $request->file('product_image')) {
-            $fileName = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-            $path = 'public/products/';
+            try {
+                $fileName = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+                
+                // Use Laravel's Storage facade with public disk
+                $path = $file->storeAs('products', $fileName, 'public');
+                $validatedData['product_image'] = $fileName;
 
-            $file->storeAs($path, $fileName);
-            $validatedData['product_image'] = $fileName;
+                \Log::info('Image uploaded successfully', [
+                    'fileName' => $fileName,
+                    'path' => $path
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error('Upload failed', ['error' => $e->getMessage()]);
+                return back()->with('error', 'Upload failed: ' . $e->getMessage());
+            }
         }
 
         Product::create($validatedData);
@@ -171,17 +182,13 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product) 
     {
-        /**
-         * Delete photo if exists.
-         */
-        if($product->product_image){
-            Storage::delete('public/products/' . $product->product_image);
+        if ($product->product_image) {
+            Storage::disk('public')->delete('products/' . $product->product_image);
         }
 
         Product::destroy($product->id);
-
         return Redirect::route('products.index')->with('success', 'Product has been deleted!');
     }
 
