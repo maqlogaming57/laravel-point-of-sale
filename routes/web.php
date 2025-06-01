@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\PosController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,8 +116,6 @@ Route::middleware(['permission:orders.menu'])->group(function () {
     Route::get('/orders/invoice/download/{order_id}', [OrderController::class, 'invoiceDownload'])->name('order.invoiceDownload');
     Route::get('/orders/export', [OrderController::class, 'exportData'])->name('order.exportData');
 
-    Route::get('/reports', [OrderController::class, 'completeOrders'])->name('report.completeOrders');
-
     // Pending Due
     Route::get('/pending/due', [OrderController::class, 'pendingDue'])->name('order.pendingDue');
     Route::get('/order/due/{id}', [OrderController::class, 'orderDueAjax'])->name('order.orderDueAjax');
@@ -159,6 +158,11 @@ Route::middleware(['permission:roles.menu'])->group(function () {
     Route::get('/role/permission/{id}', [RoleController::class, 'rolePermissionEdit'])->name('rolePermission.edit');
     Route::put('/role/permission/{id}', [RoleController::class, 'rolePermissionUpdate'])->name('rolePermission.update');
     Route::delete('/role/permission/{id}', [RoleController::class, 'rolePermissionDestroy'])->name('rolePermission.destroy');
+});
+
+// ====== REPORTS ======
+Route::middleware(['auth'])->group(function () {
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 require __DIR__.'/auth.php';

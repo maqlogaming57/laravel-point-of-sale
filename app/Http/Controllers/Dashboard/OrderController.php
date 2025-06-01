@@ -21,19 +21,29 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function pendingOrders()
+    public function pendingOrders(Request $request)
     {
-        $row = (int) request('row', 10);
+        $query = Order::query()
+            ->with('customer')
+            ->where('order_status', 'pending');
 
-        if ($row < 1 || $row > 100) {
-            abort(400, 'The per-page parameter must be an integer between 1 and 100.');
+        // Search functionality
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('invoice_no', 'LIKE', "%{$searchTerm}%")
+                  ->orWhereHas('customer', function($q) use ($searchTerm) {
+                      $q->where('name', 'LIKE', "%{$searchTerm}%");
+                  });
+            });
         }
 
-        $orders = Order::where('order_status', 'pending')->sortable()->paginate($row);
+        $orders = $query->sortable()
+                        ->latest()
+                        ->paginate($request->input('row', 10))
+                        ->appends($request->except('page'));
 
-        return view('orders.pending-orders', [
-            'orders' => $orders
-        ]);
+        return view('orders.pending-orders', compact('orders'));
     }
 
     public function completeOrders(Request $request)
@@ -188,21 +198,28 @@ class OrderController extends Controller
         ]);
     }
 
-    public function pendingDue()
+    public function pendingDue(Request $request)
     {
-        $row = (int) request('row', 10);
+        $query = Order::query()->where('due', '>', '0');
 
-        if ($row < 1 || $row > 100) {
-            abort(400, 'The per-page parameter must be an integer between 1 and 100.');
+        // Search functionality
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('invoice_no', 'LIKE', "%{$searchTerm}%")
+                  ->orWhereHas('customer', function($q) use ($searchTerm) {
+                      $q->where('name', 'LIKE', "%{$searchTerm}%");
+                  });
+            });
         }
 
-        $orders = Order::where('due', '>', '0')
-            ->sortable()
-            ->paginate($row);
+        $orders = $query->with('customer')
+                        ->sortable()
+                        ->latest()
+                        ->paginate($request->input('row', 10))
+                        ->appends($request->except('page'));
 
-        return view('orders.pending-due', [
-            'orders' => $orders
-        ]);
+        return view('orders.pending-due', compact('orders'));
     }
 
     public function orderDueAjax(Int $id)

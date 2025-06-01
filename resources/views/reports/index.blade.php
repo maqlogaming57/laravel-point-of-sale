@@ -14,11 +14,11 @@
             @endif
             <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                 <div>
-                    <h4 class="mb-3">Complete Order List</h4>
+                    <h4 class="mb-3">Reports Order List</h4>
                 </div>
                 <div>
                     <a href="{{ route('order.exportData') }}" class="btn btn-warning add-list">Export</a>
-                    <a href="{{ route('order.completeOrders') }}" class="btn btn-danger add-list">
+                    <a href="{{ route('reports.index') }}" class="btn btn-danger add-list">
                         <i class="fa-solid fa-trash mr-3"></i>Clear Search
                     </a>
                 </div>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-lg-12">
-            <form action="{{ route('order.completeOrders') }}" method="get">
+            <form action="{{ route('reports.index') }}" method="get">
                 <div class="d-flex flex-wrap align-items-center justify-content-between">
                     <div class="form-group row">
                         <label for="row" class="col-sm-3 align-self-center">Row:</label>
@@ -47,7 +47,7 @@
                         <span class="align-self-center px-2">to</span>
                         <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
                         <button type="submit" class="btn btn-primary ms-2">Filter</button>
-                        <a href="{{ route('order.completeOrders') }}" class="btn btn-danger ms-2">
+                        <a href="{{ route('reports.index') }}" class="btn btn-danger ms-2">
                             <i class="fa-solid fa-rotate-left"></i> Reset
                         </a>
                     </div>

@@ -1,4 +1,3 @@
-
 <div class="iq-sidebar sidebar-default ">
     <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
         <a href="{{ route('dashboard') }}" class="header-logo">
@@ -126,7 +125,7 @@
 
                  @if (auth()->user()->can('reports.menu'))
                 <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-                    <a href="{{ route('report.completeOrders') }}" class="svg-icon">
+                    <a href="{{ route('reports.index') }}" class="svg-icon">
                         <i class="fa-solid fa-file"></i>
                         <span class="ml-3">Reports</span>
                     </a>
