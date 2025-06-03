@@ -14,6 +14,20 @@
 
     <!-- Custom Stylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/invoice/css/style.css') }}">
+    <style>
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+            border: 1px solid #6c757d;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            color: #fff;
+            border-color: #545b62;
+        }
+    </style>
 </head>
 <body>
     <div class="invoice-16 invoice-content">
@@ -113,6 +127,9 @@
                         </a>
                         <a id="invoice_download_btn" class="btn btn-lg btn-download">
                             Download Invoice
+                        </a>
+                        <a href="{{ route('order.completeOrders') }}" class="btn btn-lg btn-secondary">
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Back
                         </a>
                     </div>
                 </div>

@@ -33,7 +33,7 @@
                 @if (auth()->user()->can('orders.menu'))
                 <li>
                     <a href="#orders" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <i class="fa-solid fa-basket-shopping"></i>
+                        <i class="fas fa-shopping-cart"></i>
                         <span class="ml-3">Orders</span>
                         <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="10 15 15 20 20 15"></polyline><path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
@@ -41,24 +41,19 @@
                     </a>
                     <ul id="orders" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" style="">
 
-                        <li class="{{ Request::is('orders/pending*') ? 'active' : '' }}">
+                        <li class="{{ Request::is('orders/pending') ? 'active' : '' }}">
                             <a href="{{ route('order.pendingOrders') }}">
                                 <i class="fa-solid fa-arrow-right"></i><span>Pending Orders</span>
                             </a>
                         </li>
-                        <li class="{{ Request::is('orders/complete*') ? 'active' : '' }}">
+                        <li class="{{ Request::is('orders/complete') ? 'active' : '' }}">
                             <a href="{{ route('order.completeOrders') }}">
                                 <i class="fa-solid fa-arrow-right"></i><span>Complete Orders</span>
                             </a>
                         </li>
-                        <li class="{{ Request::is('pending/due*') ? 'active' : '' }}">
-                            <a href="{{ route('order.pendingDue') }}">
-                                <i class="fa-solid fa-arrow-right"></i><span>Pending Due</span>
-                            </a>
-                        </li>
-                        <li class="{{ Request::is(['stock*']) ? 'active' : '' }}">
-                            <a href="{{ route('order.stockManage') }}">
-                                <i class="fa-solid fa-arrow-right"></i><span>Stock Management</span>
+                        <li class="{{ Request::is('orders/rejected') ? 'active' : '' }}">
+                            <a href="{{ route('order.rejectedOrders') }}">
+                                <i class="fa-solid fa-arrow-right"></i><span>Rejected Orders</span>
                             </a>
                         </li>
                     </ul>

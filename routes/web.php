@@ -123,6 +123,12 @@ Route::middleware(['permission:orders.menu'])->group(function () {
 
     // Stock Management
     Route::get('/stock', [OrderController::class, 'stockManage'])->name('order.stockManage');
+
+    // Reject Order
+    Route::put('/order/reject', [OrderController::class, 'rejectOrder'])->name('order.rejectOrder');
+
+    // Rejected Orders
+    Route::get('/orders/rejected', [OrderController::class, 'rejectedOrders'])->name('order.rejectedOrders');
 });
 
 // ====== DATABASE BACKUP ======

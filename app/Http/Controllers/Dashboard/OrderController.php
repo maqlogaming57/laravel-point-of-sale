@@ -317,4 +317,41 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Failed to export data: ' . $e->getMessage());
         }
     }
+
+    public function rejectOrder(Request $request)
+    {
+        $order = Order::findOrFail($request->id);
+        $order->update([
+            'order_status' => 'rejected'
+        ]);
+
+        return redirect()
+            ->route('order.pendingOrders')
+            ->with('success', 'Order has been rejected successfully');
+    }
+
+    public function rejectedOrders(Request $request)
+    {
+        $query = Order::query()
+            ->with('customer')
+            ->where('order_status', 'rejected');
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('invoice_no', 'LIKE', "%{$searchTerm}%")
+                  ->orWhereHas('customer', function($q) use ($searchTerm) {
+                      $q->where('name', 'LIKE', "%{$searchTerm}%");
+                  });
+            });
+        }
+
+        $orders = $query->sortable()
+                        ->latest()
+                        ->paginate($request->input('row', 10))
+                        ->appends($request->except('page'));
+
+        return view('orders.rejected-orders', compact('orders'));
+    }
 }
