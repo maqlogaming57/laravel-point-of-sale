@@ -97,9 +97,9 @@
                                         @foreach ($orderDetails as $item)
                                         <tr>
                                             <td>{{ $item->product->product_name }}</td>
-                                            <td>${{ $item->unitcost }}</td>
+                                            <td>Rp{{ $item->unitcost }}</td>
                                             <td>{{ $item->quantity }}</td>
-                                            <td>${{ $item->total }}</td>
+                                            <td>Rp{{ $item->total }}</td>
                                         </tr>
                                         @endforeach
                                         <tr>

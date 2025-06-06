@@ -49,10 +49,10 @@
                             <label>Payment Status</label>
                             <input class="form-control bg-white" id="expire_date" value="{{ $order->payment_status }}" readonly />
                         </div>
-                        <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <label>Paid Amount</label>
                             <input type="text" class="form-control bg-white" value="{{ $order->pay }}" readonly>
-                        </div>
+                        </div> -->
                         <div class="form-group col-md-6">
                             <label>Due Amount</label>
                             <input type="text" class="form-control bg-white" value="{{ $order->due }}" readonly>
@@ -114,7 +114,9 @@
                         <tr>
                             <td>{{ $loop->iteration  }}</td>
                             <td>
-                                <img class="avatar-60 rounded" src="{{ $item->product->product_image ? asset('storage/products/'.$item->product->product_image) : asset('storage/product_images/default.webp') }}">
+                                <img class="avatar-60 rounded" src="{{ $item->product->product_image 
+                                    ? asset('storage/products/'.$item->product->product_image) 
+                                    : asset('assets/images/product/default.webp') }}">
                             </td>
                             <td>{{ $item->product->product_name }}</td>
                             <td>{{ $item->product->product_code }}</td>

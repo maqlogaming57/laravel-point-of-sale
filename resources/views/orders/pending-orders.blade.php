@@ -69,7 +69,7 @@
                             <th>Invoice No</th>
                             <th>@sortablelink('customer.name', 'name')</th>
                             <th>@sortablelink('order_date', 'order date')</th>
-                            <th>Payment</th>
+                            <!-- <th>Payment</th> -->
                             <th>@sortablelink('total')</th>
                             <th>Status</th>
                             <th>Action</th>

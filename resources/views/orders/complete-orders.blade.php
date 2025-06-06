@@ -77,8 +77,8 @@
                             <th>Invoice No</th>
                             <th>@sortablelink('customer.name', 'name')</th>
                             <th>@sortablelink('order_date', 'order date')</th>
-                            <th>@sortablelink('pay')</th>
-                            <th>Payment</th>
+                            <!-- <th>@sortablelink('pay')</th>
+                            <th>Payment</th> -->
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -90,8 +90,8 @@
                             <td>{{ $order->invoice_no }}</td>
                             <td>{{ $order->customer->name }}</td>
                             <td>{{ $order->order_date }}</td>
-                            <td>{{ $order->pay }}</td>
-                            <td>{{ $order->payment_status }}</td>
+                            <!-- <td>{{ $order->pay }}</td>
+                            <td>{{ $order->payment_status }}</td> -->
                             <td>
                                 <span class="badge badge-success">{{ $order->order_status }}</span>
                             </td>

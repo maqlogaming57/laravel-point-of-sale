@@ -78,7 +78,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <!-- <div class="form-group col-md-6">
                                 <label for="account_holder">Account Holder</label>
                                 <input type="text" class="form-control @error('account_holder') is-invalid @enderror" id="account_holder" name="account_holder" value="{{ old('account_holder', $customer->account_holder) }}">
                                 @error('account_holder')
@@ -86,8 +86,8 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
-                            <div class="form-group col-md-6">
+                            </div> -->
+                            <!-- <div class="form-group col-md-6">
                                 <label for="bank_name">Bank Name</label>
                                 <select class="form-control @error('bank_name') is-invalid @enderror" name="bank_name">
                                     <option value="">Select Year..</option>
@@ -102,8 +102,8 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
-                            <div class="form-group col-md-6">
+                            </div> -->
+                            <!-- <div class="form-group col-md-6">
                                 <label for="account_number">Account Number</label>
                                 <input type="text" class="form-control @error('account_number') is-invalid @enderror" id="account_number" name="account_number" value="{{ old('account_number', $customer->account_number) }}">
                                 @error('account_number')
@@ -111,8 +111,8 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
-                            <div class="form-group col-md-6">
+                            </div> -->
+                            <!-- <div class="form-group col-md-6">
                                 <label for="bank_branch">Bank Branch</label>
                                 <input type="text" class="form-control @error('bank_branch') is-invalid @enderror" id="bank_branch" name="bank_branch" value="{{ old('bank_branch', $customer->bank_branch) }}">
                                 @error('bank_branch')
@@ -120,7 +120,7 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="form-group col-md-6">
                                 <label for="city">Customer City <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" value="{{ old('city', $customer->city) }}" required>

@@ -11,61 +11,15 @@
                     </div>
 
                     <div class="invoice-btn d-flex">
-                        <!-- <form action="{{ route('pos.printInvoice') }}" method="post">
+                        <form action="{{ route('pos.storeOrder') }}" method="post">
                             @csrf
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-                            <button type="submit" class="btn btn-primary-dark mr-2"><i class="las la-print"></i> Print</button>
-                        </form> -->
-
-                        <button type="button" class="btn btn-primary-dark mr-2" data-toggle="modal" data-target=".bd-example-modal-lg">Create</button>
-
-                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-white">
-                                        <h3 class="modal-title text-center mx-auto">Invoice of {{ $customer->name }}<br/>Total Amount Rp{{ Cart::total() }}</h3>
-                                    </div>
-                                    <form action="{{ route('pos.storeOrder') }}" method="post">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="payment_status">Payment</label>
-                                                    <select class="form-control @error('payment_status') is-invalid @enderror" name="payment_status">
-                                                        <option selected="" disabled="">-- Select Payment --</option>
-                                                        <option value="HandCash">HandCash</option>
-                                                        <option value="Cheque">Cheque</option>
-                                                        <option value="Due">Due</option>
-                                                    </select>
-                                                    @error('payment_status')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="pay">Pay Now</label>
-                                                    <input type="text" class="form-control @error('pay') is-invalid @enderror" id="pay" name="pay" value="{{ old('pay') }}">
-                                                    @error('pay')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                            <input type="hidden" name="payment_status" value="Due">
+                            <input type="hidden" name="pay" value="0">
+                            <button type="submit" class="btn btn-primary-dark mr-2">
+                                <i class="fa-solid fa-paper-plane mr-2"></i>Create Order
+                            </button>
+                        </form>
                     </div>
                 </div>
 

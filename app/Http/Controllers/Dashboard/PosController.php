@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
@@ -102,5 +103,44 @@ class PosController extends Controller
             'customer' => $customer,
             'content' => $content
         ]);
+    }
+
+    public function storeOrder(Request $request)
+    {
+        $rules = [
+            'customer_id' => 'required',
+            'payment_status' => 'required',
+            'pay' => 'required|numeric',
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        $order = Order::create([
+            'customer_id' => $validatedData['customer_id'],
+            'order_date' => Carbon::now(),
+            'order_status' => 'pending',
+            'total_products' => Cart::count(),
+            'sub_total' => Cart::subtotal(),
+            'vat' => Cart::tax(),
+            'total' => Cart::total(),
+            'invoice_no' => 'EPOS'.mt_rand(10000000,99999999),
+            'payment_status' => $validatedData['payment_status'],
+            'pay' => $validatedData['pay'],
+            'due' => Cart::total() - $validatedData['pay'],
+        ]);
+
+        foreach (Cart::content() as $item) {
+            $order->orderDetails()->create([
+                'product_id' => $item->id,
+                'price' => $item->price,
+                'quantity' => $item->qty,
+                'total' => $item->subtotal,
+            ]);
+        }
+
+        Cart::destroy();
+
+        return redirect()->route('order.pendingOrders')
+                        ->with('success', 'Order created successfully');
     }
 }
