@@ -75,11 +75,11 @@
                                 <i class="fa-solid fa-arrow-right"></i><span>Products</span>
                             </a>
                         </li>
-                        <li class="{{ Request::is(['products/create']) ? 'active' : '' }}">
+                        <!-- <li class="{{ Request::is(['products/create']) ? 'active' : '' }}">
                             <a href="{{ route('products.create') }}">
                                 <i class="fa-solid fa-arrow-right"></i><span>Add Products</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="{{ Request::is(['categories*']) ? 'active' : '' }}">
                             <a href="{{ route('categories.index') }}">
                                 <i class="fa-solid fa-arrow-right"></i><span>Categories</span>

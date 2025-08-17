@@ -122,11 +122,11 @@
                                             </div>
                                             <div class="mb-2">
                                                 <h6>Sub Total</h6>
-                                                <p>${{ Cart::subtotal() }}</p>
+                                                <p>Rp{{ Cart::subtotal() }}</p>
                                             </div>
                                             <div>
                                                 <h6>Vat (5%)</h6>
-                                                <p>${{ Cart::tax() }}</p>
+                                                <p>Rp{{ Cart::tax() }}</p>
                                             </div>
                                         </div>
                                         <div class="ttl-amt py-2 px-3 d-flex justify-content-between align-items-center">

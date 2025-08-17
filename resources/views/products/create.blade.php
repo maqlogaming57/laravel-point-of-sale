@@ -102,6 +102,7 @@
                                 </div>
                                 @enderror
                             </div>
+                            {{--
                             <div class="form-group col-md-6">
                                 <label for="buying_date">Buying Date</label>
                                 <input id="buying_date" class="form-control @error('buying_date') is-invalid @enderror" name="buying_date" value="{{ old('buying_date') }}" />
@@ -120,6 +121,7 @@
                                 </div>
                                 @enderror
                             </div>
+                            --}}
                             <div class="form-group col-md-6">
                                 <label for="buying_price">Buying Price <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('buying_price') is-invalid @enderror" id="buying_price" name="buying_price" value="{{ old('buying_price') }}" required>
@@ -153,16 +155,16 @@
 </div>
 
 <script>
+    /* Datepickers temporarily disabled
     $('#buying_date').datepicker({
         uiLibrary: 'bootstrap4',
         format: 'yyyy-mm-dd'
-        // https://gijgo.com/datetimepicker/configuration/format
     });
     $('#expire_date').datepicker({
         uiLibrary: 'bootstrap4',
         format: 'yyyy-mm-dd'
-        // https://gijgo.com/datetimepicker/configuration/format
     });
+    */
 </script>
 
 @include('components.preview-img-form')

@@ -82,7 +82,6 @@
                             <td>{{ $order->invoice_no }}</td>
                             <td>{{ $order->customer->name }}</td>
                             <td>{{ $order->order_date }}</td>
-                            <td>{{ $order->payment_status }}</td>
                             <td>{{ $order->total }}</td>
                             <td>
                                 <span class="badge badge-danger">{{ $order->order_status }}</span>

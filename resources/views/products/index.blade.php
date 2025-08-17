@@ -90,7 +90,11 @@
                             <td>{{ $product->supplier->name }}</td>
                             <td>{{ $product->selling_price }}</td>
                             <td>
-                                @if ($product->expire_date > Carbon\Carbon::now()->format('Y-m-d'))
+                                @php
+                                    $now = Carbon\Carbon::now()->format('Y-m-d');
+                                    $exp = $product->expire_date;
+                                @endphp
+                                @if (empty($exp) || $exp > $now)
                                     <span class="badge rounded-pill bg-success">Valid</span>
                                 @else
                                     <span class="badge rounded-pill bg-danger">Invalid</span>

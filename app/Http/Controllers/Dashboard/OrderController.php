@@ -336,6 +336,14 @@ class OrderController extends Controller
             ->with('customer')
             ->where('order_status', 'rejected');
 
+        // Date range filter (same pattern as completeOrders)
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('order_date', [
+                Carbon::parse($request->start_date)->startOfDay(),
+                Carbon::parse($request->end_date)->endOfDay(),
+            ]);
+        }
+
         // Search functionality
         if ($request->filled('search')) {
             $searchTerm = $request->search;

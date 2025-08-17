@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Picqer\Barcode\BarcodeGeneratorHTML;
@@ -70,8 +71,6 @@ class ProductController extends Controller
             'supplier_id' => 'required|integer',
             'product_garage' => 'string|nullable',
             'product_store' => 'string|nullable',
-            'buying_date' => 'date_format:Y-m-d|max:10|nullable',
-            'expire_date' => 'date_format:Y-m-d|max:10|nullable',
             'buying_price' => 'required|integer',
             'selling_price' => 'required|integer',
         ];
@@ -92,13 +91,13 @@ class ProductController extends Controller
                 $path = $file->storeAs('products', $fileName, 'public');
                 $validatedData['product_image'] = $fileName;
 
-                \Log::info('Image uploaded successfully', [
+                Log::info('Image uploaded successfully', [
                     'fileName' => $fileName,
                     'path' => $path
                 ]);
 
             } catch (\Exception $e) {
-                \Log::error('Upload failed', ['error' => $e->getMessage()]);
+                Log::error('Upload failed', ['error' => $e->getMessage()]);
                 return back()->with('error', 'Upload failed: ' . $e->getMessage());
             }
         }
@@ -148,8 +147,6 @@ class ProductController extends Controller
             'supplier_id' => 'required|integer',
             'product_garage' => 'string|nullable',
             'product_store' => 'string|nullable',
-            'buying_date' => 'date_format:Y-m-d|max:10|nullable',
-            'expire_date' => 'date_format:Y-m-d|max:10|nullable',
             'buying_price' => 'required|integer',
             'selling_price' => 'required|integer',
         ];

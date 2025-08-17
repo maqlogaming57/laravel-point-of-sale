@@ -29,7 +29,7 @@
                         <!-- end: Input Data -->
                         <div class="mt-2">
                             <button type="submit" class="btn btn-primary mr-2">Save</button>
-                            <a class="btn bg-danger" href="{{ route('roles.index') }}">Cancel</a>
+                            <a class="btn bg-danger" href="{{ route('role.index') }}">Cancel</a>
                         </div>
                     </form>
                 </div>

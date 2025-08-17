@@ -44,6 +44,12 @@
                                 </div>
                                 @enderror
                             </div>
+                            <!-- Add Stock Button -->
+                            <div class="col-lg-3 mb-4 d-flex align-items-start">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addStockModal">
+                                    <i class="fa fa-plus"></i> Add Stock
+                                </button>
+                            </div>
                         </div>
                         <!-- end: Input Image -->
                         <!-- begin: Input Data -->
@@ -97,13 +103,14 @@
                             <div class="form-group col-md-6">
                                 <label for="product_store">Product Store</label>
                                 <input type="text" class="form-control @error('product_store') is-invalid @enderror" id="product_store" name="product_store" value="{{ old('product_store', $product->product_store) }}">
+                                <small class="text-muted">Anda bisa mengubah langsung angka ini atau gunakan tombol "Tambah Stock".</small>
                                 @error('product_store')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <!-- <div class="form-group col-md-6">
                                 <label for="buying_date">Buying Date</label>
                                 <input id="buying_date" class="form-control @error('buying_date') is-invalid @enderror" name="buying_date" value="{{ old('buying_date', $product->buying_date) }}" />
                                 @error('buying_date')
@@ -111,8 +118,8 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
-                            <div class="form-group col-md-6">
+                            </div> -->
+                            <!-- <div class="form-group col-md-6">
                                 <label for="expire_date">Expire Date</label>
                                 <input id="expire_date" class="form-control @error('expire_date') is-invalid @enderror" name="expire_date" value="{{ old('expire_date', $product->expire_date) }}" />
                                 @error('expire_date')
@@ -120,7 +127,7 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="form-group col-md-6">
                                 <label for="buying_price">Buying Price <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('buying_price') is-invalid @enderror" id="buying_price" name="buying_price" value="{{ old('buying_price', $product->buying_price) }}" required>
@@ -153,16 +160,61 @@
     <!-- Page end  -->
 </div>
 
+<!-- Modal: Add Stock -->
+<div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addStockModalLabel">Tambah Stock Produk</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="add_stock_qty">Jumlah yang akan ditambahkan</label>
+            <input type="number" min="1" class="form-control" id="add_stock_qty" placeholder="Masukkan jumlah" />
+            <small class="text-muted">Stock sekarang: <span id="currentStockDisplay">{{ $product->product_store }}</span></small>
+        </div>
+        <div class="alert alert-danger d-none" id="addStockError"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnApplyAddStock">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
     $('#buying_date').datepicker({
         uiLibrary: 'bootstrap4',
         format: 'yyyy-mm-dd'
-        // https://gijgo.com/datetimepicker/configuration/format
     });
     $('#expire_date').datepicker({
         uiLibrary: 'bootstrap4',
         format: 'yyyy-mm-dd'
-        // https://gijgo.com/datetimepicker/configuration/format
+    });
+
+    // Add Stock logic
+    $(function(){
+        $('#addStockModal').on('show.bs.modal', function(){
+            $('#add_stock_qty').val('');
+            $('#addStockError').addClass('d-none').text('');
+            $('#currentStockDisplay').text($('#product_store').val() || 0);
+        });
+        $('#btnApplyAddStock').on('click', function(){
+            let addQty = parseInt($('#add_stock_qty').val(), 10);
+            if(isNaN(addQty) || addQty < 1){
+                $('#addStockError').removeClass('d-none').text('Masukkan jumlah valid (>=1)');
+                return;
+            }
+            let current = parseInt($('#product_store').val(), 10);
+            if(isNaN(current)) current = 0;
+            let newTotal = current + addQty;
+            $('#product_store').val(newTotal);
+            $('#addStockModal').modal('hide');
+        });
     });
 </script>
 

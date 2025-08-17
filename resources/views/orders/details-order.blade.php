@@ -45,10 +45,10 @@
                             <label>Order Invoice</label>
                             <input class="form-control bg-white" id="buying_date" value="{{ $order->invoice_no }}" readonly/>
                         </div>
-                        <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <label>Payment Status</label>
                             <input class="form-control bg-white" id="expire_date" value="{{ $order->payment_status }}" readonly />
-                        </div>
+                        </div> -->
                         <!-- <div class="form-group col-md-6">
                             <label>Paid Amount</label>
                             <input type="text" class="form-control bg-white" value="{{ $order->pay }}" readonly>

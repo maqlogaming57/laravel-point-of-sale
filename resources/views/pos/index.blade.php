@@ -37,7 +37,7 @@
                             <form action="{{ route('pos.updateCart', $item->rowId) }}" method="POST">
                                 @csrf
                                 <div class="input-group">
-                                    <input type="number" class="form-control" name="qty" required value="{{ old('qty', $item->qty) }}">
+                                    <input type="number" class="form-control" name="qty" required value="{{ old('qty', $item->qty) }}" min="1" step="1" oninput="if(this.value === '' || this.value < 1){ this.value = 1; }">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-success border-none" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sumbit"><i class="fas fa-check"></i></button>
                                     </div>
@@ -75,18 +75,19 @@
                 </div>
             </div>
 
-            <form action="{{ route('pos.createInvoice') }}" method="POST">
+            <form action="{{ route('pos.createInvoice') }}" method="POST" id="createInvoiceForm">
                 @csrf
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <select class="form-control" id="customer_id" name="customer_id">
-                                <option selected="" disabled="">-- Select Customer --</option>
+                            <select class="form-control customer-required" id="customer_id" name="customer_id">
+                                <option value="" disabled @if(!old('customer_id')) selected @endif>-- Select Customer --</option>
                                 @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    <option value="{{ $customer->id }}" @if(old('customer_id') == $customer->id) selected @endif>{{ $customer->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <small id="customerWarning" class="text-danger d-none">* Customer harus dipilih sebelum membuat invoice.</small>
                         @error('customer_id')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -141,6 +142,7 @@
                                     <th>Photo</th>
                                     <th>@sortablelink('product_name', 'name')</th>
                                     <th>@sortablelink('selling_price', 'price')</th>
+                                    <th>Stock</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -153,6 +155,7 @@
                                     </td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ $product->selling_price }}</td>
+                                    <td>{{ $product->product_store ?? 0 }}</td>
                                     <td>
                                         <form action="{{ route('pos.addCart') }}" method="POST"  style="margin-bottom: 5px">
                                             @csrf
@@ -220,14 +223,37 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Handle delete modal
     $('#deleteModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var deleteUrl = button.data('url'); // Extract info from data-* attributes
+        var button = $(event.relatedTarget);
+        var deleteUrl = button.data('url');
         var itemName = button.data('name');
-        
-        // Update modal content
         var modal = $(this);
         modal.find('#deleteItemName').text(itemName);
         modal.find('#confirmDeleteBtn').attr('href', deleteUrl);
+    });
+
+    // Customer select red highlight + warning until chosen
+    const customerSelect = document.getElementById('customer_id');
+    const customerWarning = document.getElementById('customerWarning');
+    function updateCustomerSelectState(){
+        if(!customerSelect.value){
+            customerSelect.classList.add('border','border-danger','text-danger');
+            customerWarning.classList.remove('d-none');
+        } else {
+            customerSelect.classList.remove('border-danger','text-danger');
+            customerWarning.classList.add('d-none');
+        }
+    }
+    updateCustomerSelectState();
+    customerSelect.addEventListener('change', updateCustomerSelectState);
+
+    // Prevent form submit if not selected
+    const invoiceForm = document.getElementById('createInvoiceForm');
+    invoiceForm.addEventListener('submit', function(e){
+        if(!customerSelect.value){
+            e.preventDefault();
+            updateCustomerSelectState();
+            customerSelect.focus();
+        }
     });
 });
 </script>

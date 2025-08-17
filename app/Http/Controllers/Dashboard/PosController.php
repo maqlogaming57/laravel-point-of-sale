@@ -22,14 +22,19 @@ class PosController extends Controller
             abort(400, 'The per-page parameter must be an integer between 1 and 100.');
         }
 
-        return view('pos.index', [
-            'customers' => Customer::all()->sortBy('name'),
-            'productItem' => Cart::content(),
-            'products' => Product::where('expire_date', '>', $todayDate)->filter(request(['search']))
-                ->sortable()
-                ->paginate($row)
-                ->appends(request()->query()),
-        ]);
+    return view('pos.index', [
+        'customers' => Customer::all()->sortBy('name'),
+        'productItem' => Cart::content(),
+        // Include products with no expire_date OR expire_date greater than today
+        'products' => Product::where(function($q) use ($todayDate) {
+            $q->whereNull('expire_date')
+              ->orWhere('expire_date', '>', $todayDate);
+        })
+        ->filter(request(['search']))
+        ->sortable()
+        ->paginate($row)
+        ->appends(request()->query()),
+    ]);
     }
 
     public function addCart(Request $request)
@@ -56,12 +61,16 @@ class PosController extends Controller
     public function updateCart(Request $request, $rowId)
     {
         $rules = [
-            'qty' => 'required|numeric',
+            'qty' => 'required|numeric|min:1',
         ];
 
         $validatedData = $request->validate($rules);
 
-        Cart::update($rowId, $validatedData['qty']);
+        // Safety clamp in case of manipulation
+        $qty = (int) $validatedData['qty'];
+        if ($qty < 1) { $qty = 1; }
+
+        Cart::update($rowId, $qty);
 
         return Redirect::back()->with('success', 'Cart has been updated!');
     }
