@@ -80,7 +80,7 @@
                         <tr>
                             <td>{{ (($orders->currentPage() * 10) - 10) + $loop->iteration  }}</td>
                             <td>{{ $order->invoice_no }}</td>
-                            <td>{{ $order->customer->name }}</td>
+                            <td>{{ $order->customer->name ?? '-'}}</td>
                             <td>{{ Carbon\Carbon::parse($order->order_date)->format('Y m, d') }}</td>
                             <td>{{ $order->payment_status }}</td>
                             <td>
